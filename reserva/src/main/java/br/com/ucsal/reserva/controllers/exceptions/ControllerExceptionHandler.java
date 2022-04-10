@@ -1,6 +1,7 @@
 package br.com.ucsal.reserva.controllers.exceptions;
 
 import br.com.ucsal.reserva.services.exceptions.DatabaseException;
+import br.com.ucsal.reserva.services.exceptions.MakeScheduleException;
 import br.com.ucsal.reserva.services.exceptions.ResourceNotFoundException;
 import br.com.ucsal.reserva.services.exceptions.ForbiddenException;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,22 @@ public class ControllerExceptionHandler {
         error.setPath(request.getRequestURI());
         return ResponseEntity.status(status).body(error);
     }
+
+    @ExceptionHandler(MakeScheduleException.class)
+    public ResponseEntity<StandardError> makeSchedule(MakeScheduleException e, HttpServletRequest request) {
+
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+
+        StandardError error = new StandardError();
+        error.setError("Schedule Error");
+        error.setMessage(e.getMessage());
+        error.setPath(request.getRequestURI());
+        error.setStatus(status.value());
+        error.setTimestamp(Instant.now());
+
+        return ResponseEntity.status(status).body(error);
+    }
+
 
     @ExceptionHandler(ForbiddenException.class)
     protected ResponseEntity<AuthCustomError> forbidden(ForbiddenException e) {

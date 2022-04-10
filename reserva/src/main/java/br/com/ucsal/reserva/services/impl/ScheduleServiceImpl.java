@@ -10,6 +10,7 @@ import br.com.ucsal.reserva.repositories.ScheduleRepository;
 import br.com.ucsal.reserva.repositories.UserRepository;
 import br.com.ucsal.reserva.services.ScheduleService;
 import br.com.ucsal.reserva.services.exceptions.ForbiddenException;
+import br.com.ucsal.reserva.services.exceptions.MakeScheduleException;
 import br.com.ucsal.reserva.services.exceptions.ResourceNotFoundException;
 import br.com.ucsal.reserva.services.models.FindApprovedSchedulesResult;
 import br.com.ucsal.reserva.services.models.MakeScheduleResult;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Slf4j
@@ -40,6 +42,7 @@ public class ScheduleServiceImpl implements  ScheduleService {
             var laboratory = laboratoryRepository.findById(laboratoryId).orElseThrow(()-> new ResourceNotFoundException("Laboratory not found"));
             var user = userRepository.findById(registerScheduleInput.getRequesterId()).orElseThrow(()-> new ResourceNotFoundException("User not found"));
                 log.info("schedule to be persisted : {}",registerScheduleInput);
+                validateMakeSchedule(laboratoryId,registerScheduleInput.getDateTimeStart(),registerScheduleInput.getDateTimeEnd());
                 return new MakeScheduleResult(
                         scheduleRepository.save(new Schedule(
                                 UUID.randomUUID(),user,laboratory,registerScheduleInput.getDateTimeStart(),
@@ -47,6 +50,25 @@ public class ScheduleServiceImpl implements  ScheduleService {
                                 Instant.now()
                         ))
                 );
+    }
+
+
+    @Override
+    public void validateMakeSchedule(Long laboratoryId, LocalDateTime dateTimeStartFromRequest, LocalDateTime dateTimeEndFromRequest) {
+        if (dateTimeEndFromRequest.isBefore(dateTimeStartFromRequest)) throw  new MakeScheduleException("End time can't be before the start time.");
+        if (dateTimeEndFromRequest.isEqual(dateTimeStartFromRequest)) throw  new MakeScheduleException("End time can't be before the start time.");
+        var laboratory = laboratoryRepository.findById(laboratoryId).orElseThrow(()-> new ResourceNotFoundException("Laboratory not found"));
+        if (laboratory.getSchedules().stream().filter(x->x.getLaboratory().getId().equals(laboratoryId)).findFirst().orElse(null)!=null){
+            for (Schedule schedule : laboratory.getSchedules()){
+                if (
+                        dateTimeStartFromRequest.isBefore(schedule.getDateTimeEnd())
+                                                ||
+                        dateTimeStartFromRequest.isEqual(schedule.getDateTimeEnd())
+                ){
+                    throw  new MakeScheduleException("Already have a Schedule on this Date/Hour.");
+                }
+            }
+        }
     }
 
     @Override
