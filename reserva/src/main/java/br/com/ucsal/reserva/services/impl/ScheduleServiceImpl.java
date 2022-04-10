@@ -56,7 +56,7 @@ public class ScheduleServiceImpl implements  ScheduleService {
     @Override
     public void validateMakeSchedule(Long laboratoryId, LocalDateTime dateTimeStartFromRequest, LocalDateTime dateTimeEndFromRequest) {
         if (dateTimeEndFromRequest.isBefore(dateTimeStartFromRequest)) throw  new MakeScheduleException("End time can't be before the start time.");
-        if (dateTimeEndFromRequest.isEqual(dateTimeStartFromRequest)) throw  new MakeScheduleException("End time can't be before the start time.");
+        if (dateTimeEndFromRequest.isEqual(dateTimeStartFromRequest)) throw  new MakeScheduleException("End time can't be equals the start time.");
         var laboratory = laboratoryRepository.findById(laboratoryId).orElseThrow(()-> new ResourceNotFoundException("Laboratory not found"));
         if (laboratory.getSchedules().stream().filter(x->x.getLaboratory().getId().equals(laboratoryId)).findFirst().orElse(null)!=null){
             for (Schedule schedule : laboratory.getSchedules()){
