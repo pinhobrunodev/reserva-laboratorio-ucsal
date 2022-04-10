@@ -1,0 +1,235 @@
+{
+	"info": {
+		"_postman_id": "20e5edfd-30de-45af-951d-20a4bce24b48",
+		"name": "ATV6-ARQ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Laboratory",
+			"item": [
+				{
+					"name": "POST Laboratory",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requesterId\":1,\r\n    \"block\":\"B\",\r\n    \"number\":\"12\",\r\n    \"equipments\":\"10  bancadas com 10 computadores\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/laboratories/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"laboratories",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Schedule",
+			"item": [
+				{
+					"name": "POST Schedule",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requesterId\":2,\r\n    \"dateTimeStart\":\"22/11/1999 22:01:00\",\r\n    \"dateTimeEnd\":\"22/11/1999 23:30:00\",\r\n    \"reason\":\"Palestra sobre Java\"\r\n\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/schedules/laboratory/2/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"schedules",
+								"laboratory",
+								"2",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Approve",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requesterId\":1\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/schedules/be59e41f-95ff-4b5b-ae4c-962b84908379/approve",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"schedules",
+								"be59e41f-95ff-4b5b-ae4c-962b84908379",
+								"approve"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Disapprove",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requesterId\":1\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/schedules/cafa2479-a530-4932-a54a-98ed35113732/disapprove",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"schedules",
+								"cafa2479-a530-4932-a54a-98ed35113732",
+								"disapprove"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Pending Schedules",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requesterId\":1\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/schedules/pending",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"schedules",
+								"pending"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Approved Schedules",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requesterId\":1\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/schedules/approved",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"schedules",
+								"approved"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Recused Schedules",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requesterId\":1\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/schedules/recused",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"schedules",
+								"recused"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
