@@ -16,7 +16,6 @@ public interface ScheduleService {
         uri -> laboratoryId
      */
     MakeScheduleResult makeSchedule(RegisterScheduleInput registerScheduleInput, Long laboratoryId);
-    void validateMakeSchedule(Long laboratoryId,LocalDateTime dateTimeStart,LocalDateTime dateTimeEnd);
     void approveSchedule(ScheduleManagementInput scheduleManagementInput, UUID scheduleId);
     void disapproveSchedule(ScheduleManagementInput scheduleManagementInput , UUID scheduleId);
     Page<FindApprovedSchedulesResult> findSchedulesApproved(Pageable pageable);
